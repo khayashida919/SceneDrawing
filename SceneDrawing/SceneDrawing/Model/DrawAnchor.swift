@@ -12,7 +12,6 @@ final class DrawAnchor: ARAnchor {
     let color: UIColor
     let size: Float
     init(name: String, transform: simd_float4x4, color: UIColor, size: Float) {
-        
         self.color = color
         self.size = size
         super.init(name: name, transform: transform)

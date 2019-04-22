@@ -51,15 +51,6 @@ final class MultipeerSession: NSObject {
 extension MultipeerSession: MCSessionDelegate {
     
     func session(_ session: MCSession, peer peerID: MCPeerID, didChange state: MCSessionState) {
-        // not used
-        switch state {
-        case .notConnected:
-            print("notConnected")
-        case .connecting:
-            print("connecting")
-        case .connected:
-            print("connected")
-        }
     }
     
     func session(_ session: MCSession, didReceive data: Data, fromPeer peerID: MCPeerID) {

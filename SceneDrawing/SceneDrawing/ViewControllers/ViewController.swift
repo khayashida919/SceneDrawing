@@ -18,7 +18,8 @@ final class ViewController: UIViewController {
     @IBOutlet private weak var saveButton: UIButton!
     @IBOutlet private weak var fontSizeSlider: UISlider!
     
-    var multipeerSession: MultipeerSession!
+    private var multipeerSession: MultipeerSession!
+    private let device = MTLCreateSystemDefaultDevice()!
     
     private var drawNode = SCNNode()
     private var nodeColor: UIColor = .white
@@ -44,9 +45,7 @@ final class ViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        let configuration = ARWorldTrackingConfiguration()
-        configuration.planeDetection = [.horizontal, .vertical]
-        sceneView.session.run(configuration)
+        reloadWorld(session: sceneView.session)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -79,9 +78,7 @@ final class ViewController: UIViewController {
     
     @IBAction func removeAction(_ sender: UIButton) {
         showAlert(isCancel: true, title: "確認", message: "削除しますか？") {
-            let configuration = ARWorldTrackingConfiguration()
-            configuration.planeDetection = [.horizontal, .vertical]
-            self.sceneView.session.run(configuration, options: [.resetTracking, .removeExistingAnchors])
+            self.reloadWorld(session: self.sceneView.session)
         }
     }
     
@@ -100,12 +97,11 @@ final class ViewController: UIViewController {
             do {
                 let data = try NSKeyedArchiver.archivedData(withRootObject: worldMap, requiringSecureCoding: true)
                 try data.write(to: worldMapPath)
+                self.showAlert(isCancel: false, title: "", message: "保存に成功しました")
                 self.multipeerSession.sendToAllPeers(data)
             } catch {
                 self.showAlert(isCancel: false, title: "エラー", message: "\(error.localizedDescription)")
-                return
             }
-            self.showAlert(isCancel: false, title: "", message: "保存に成功しました")
         }
     }
     
@@ -118,11 +114,7 @@ final class ViewController: UIViewController {
             guard let worldMap = try? NSKeyedUnarchiver.unarchivedObject(ofClass: ARWorldMap.self, from: data) else {
                 return
             }
-            
-            let configuration = ARWorldTrackingConfiguration()
-            configuration.planeDetection = .horizontal
-            configuration.initialWorldMap = worldMap
-            sceneView.session.run(configuration, options: [.resetTracking, .removeExistingAnchors])
+            reloadWorld(session: sceneView.session, worldMap: worldMap)
             self.showAlert(isCancel: false, title: "", message: "読み込みに成功しました")
         } catch {
             self.showAlert(isCancel: false, title: "エラー", message: "\(error.localizedDescription)")
@@ -132,19 +124,31 @@ final class ViewController: UIViewController {
     
     private func receivedData(_ data: Data, from peer: MCPeerID) {
         if let worldMap = try? NSKeyedUnarchiver.unarchivedObject(ofClass: ARWorldMap.self, from: data) {
-            let configuration = ARWorldTrackingConfiguration()
-            configuration.planeDetection = [.horizontal, .vertical]
-            configuration.initialWorldMap = worldMap
-            sceneView.session.run(configuration/*, options: [.resetTracking, .removeExistingAnchors]*/)
+            reloadWorld(session: sceneView.session, worldMap: worldMap)
             self.showAlert(isCancel: false, title: "", message: "世界情報を受け取りました")
         }
         if let anchor = try? NSKeyedUnarchiver.unarchivedObject(ofClass: DrawAnchor.self, from: data) {
             sceneView.session.add(anchor: anchor)
         }
     }
+    
+    private func reloadWorld(session: ARSession, worldMap: ARWorldMap? = nil) {
+        let configuration = ARWorldTrackingConfiguration()
+        configuration.planeDetection = [.horizontal, .vertical]
+        if let worldMap = worldMap {
+            configuration.initialWorldMap = worldMap
+        }
+        sceneView.session.run(configuration, options: [.resetTracking, .removeExistingAnchors])
+    }
+    
 }
 
 extension ViewController: ARSCNViewDelegate {
+    
+    func sessionShouldAttemptRelocalization(_ session: ARSession) -> Bool {
+        return true
+    }
+    
     func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
         DispatchQueue.main.async {
             if let drawAnchor = anchor as? DrawAnchor, let name = drawAnchor.name, name.hasPrefix("Node") {
@@ -152,9 +156,28 @@ extension ViewController: ARSCNViewDelegate {
                 
                 let size = CGFloat(drawAnchor.size)
                 box.geometry = SCNBox(width: size, height: size, length: size, chamferRadius: 1)
-                box.position = SCNVector3(drawAnchor.transform.columns.3.x, drawAnchor.transform.columns.3.y, drawAnchor.transform.columns.3.z)
                 box.geometry!.firstMaterial?.diffuse.contents = drawAnchor.color
+                box.position = SCNVector3(drawAnchor.transform.columns.3.x, drawAnchor.transform.columns.3.y, drawAnchor.transform.columns.3.z)
                 self.sceneView.scene.rootNode.addChildNode(box)
+            }
+            if let planeAnchor = anchor as? ARPlaneAnchor {
+                let planeGeometry = ARSCNPlaneGeometry(device: self.device)!
+                let color = planeAnchor.alignment == .horizontal ? UIColor.blue : UIColor.green
+                planeGeometry.materials.first?.diffuse.contents = color.withAlphaComponent(0.001)
+                planeGeometry.update(from: planeAnchor.geometry)
+                let planeNode = SCNNode(geometry: planeGeometry)
+                planeNode.renderingOrder = -1
+                node.addChildNode(planeNode)
+            }
+        }
+    }
+    
+    func renderer(_ renderer: SCNSceneRenderer, didUpdate node: SCNNode, for anchor: ARAnchor) {
+        DispatchQueue.main.async {
+            if let planeAnchor = anchor as? ARPlaneAnchor {
+                node.childNodes
+                    .compactMap { $0.geometry as? ARSCNPlaneGeometry }
+                    .first?.update(from: planeAnchor.geometry)
             }
         }
     }
@@ -180,4 +203,3 @@ extension ViewController: ARSessionDelegate {
         
     }
 }
-

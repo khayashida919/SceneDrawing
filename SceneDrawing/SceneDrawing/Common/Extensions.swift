@@ -24,13 +24,3 @@ extension UIViewController {
     }
 }
 
-extension ARFrame.WorldMappingStatus {
-    var message: String {
-        switch self {
-        case .notAvailable, .limited: return "スキャンし続けてください"
-        case .extending, .mapped: return "マッピング状態良好"
-        @unknown default:
-            fatalError()
-        }
-    }
-}
