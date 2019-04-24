@@ -10,9 +10,11 @@ import UIKit
 import SceneKit
 import ARKit
 import MultipeerConnectivity
+import GoogleMobileAds
 
 final class ViewController: UIViewController {
     
+    @IBOutlet private weak var bannerView: GADBannerView!
     @IBOutlet private weak var sceneView: ARSCNView!
     @IBOutlet private weak var mappingStatusLabel: UILabel!
     @IBOutlet private weak var saveButton: UIButton!
@@ -32,6 +34,10 @@ final class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        bannerView.adUnitID = "ca-app-pub-7093305833453939/6395761770"
+        bannerView.rootViewController = self
+        bannerView.load(GADRequest())
         
         sceneView.scene = SCNScene()
         sceneView.session.delegate = self
@@ -60,7 +66,7 @@ final class ViewController: UIViewController {
         let pointInWorld = cameraNode.convertPosition(infrontOfCamera, to: nil)
         var screenPosition = sceneView.projectPoint(pointInWorld)
         
-        let finger = touches.first!.location(in: nil)
+        let finger = touches.first!.location(in: view)
         screenPosition.x = Float(finger.x)
         screenPosition.y = Float(finger.y)
         let finalPosition = sceneView.unprojectPoint(screenPosition)
