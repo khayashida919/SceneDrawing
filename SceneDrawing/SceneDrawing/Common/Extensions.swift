@@ -10,6 +10,7 @@ import UIKit
 import ARKit
 
 extension UIViewController {
+    
     func showAlert(isCancel: Bool, title: String, message: String, handler: (() -> Void)? = nil) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let action = UIAlertAction(title: "OK", style: .default) { (_) in
@@ -22,5 +23,6 @@ extension UIViewController {
         }
         present(alert, animated: true, completion: nil)
     }
+    
 }
 

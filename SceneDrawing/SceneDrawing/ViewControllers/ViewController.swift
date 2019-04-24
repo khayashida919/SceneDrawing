@@ -184,6 +184,7 @@ extension ViewController: ARSCNViewDelegate {
 }
 
 extension ViewController: ARSessionDelegate {
+    
     func session(_ session: ARSession, didUpdate frame: ARFrame) {
         DispatchQueue.main.async {
             let peerName = "\(self.multipeerSession.connectedPeers.map { $0.displayName }.joined(separator: "\n"))"
@@ -191,7 +192,7 @@ extension ViewController: ARSessionDelegate {
             case .notAvailable, .limited:
                 self.saveButton.isEnabled = false
                 self.saveButton.alpha = 0.1
-                self.mappingStatusLabel.text = "スキャンし続けてください\n\(peerName)"
+                self.mappingStatusLabel.text = "周囲のスキャンしてください\n\(peerName)"
             case .extending, .mapped:
                 self.saveButton.isEnabled = true
                 self.saveButton.alpha = 1
@@ -200,6 +201,6 @@ extension ViewController: ARSessionDelegate {
                 fatalError()
             }
         }
-        
     }
+    
 }
