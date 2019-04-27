@@ -42,7 +42,7 @@ final class ViewController: UIViewController {
         sceneView.scene = SCNScene()
         sceneView.session.delegate = self
         sceneView.delegate = self
-        sceneView.showsStatistics = true
+        sceneView.showsStatistics = false //SceneKitデバッグ用View 審査時にRejectされるのでfalse
         sceneView.debugOptions = [.showFeaturePoints]
         
         multipeerSession = MultipeerSession(receivedDataHandler: receivedData)
@@ -51,12 +51,15 @@ final class ViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        if ARWorldTrackingConfiguration.isSupported {
+            showAlert(isCancel: true, title: "エラー", message: "この端末ではご利用出来ません。")
+        }
         reloadWorld(session: sceneView.session)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        
+
         sceneView.session.pause()
     }
     
@@ -144,6 +147,7 @@ final class ViewController: UIViewController {
         if let worldMap = worldMap {
             configuration.initialWorldMap = worldMap
         }
+        sceneView.scene = SCNScene()
         sceneView.session.run(configuration, options: [.resetTracking, .removeExistingAnchors])
     }
     
