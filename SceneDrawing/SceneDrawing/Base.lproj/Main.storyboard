@@ -187,7 +187,10 @@
                     </view>
                     <connections>
                         <outlet property="bannerView" destination="X5r-hY-54D" id="Vwv-Yn-eWa"/>
+                        <outlet property="colorsStackView" destination="jqZ-B4-ps6" id="34P-yR-IeA"/>
+                        <outlet property="deleteButton" destination="rbK-RK-0B7" id="oAY-AW-OvZ"/>
                         <outlet property="fontSizeSlider" destination="aKp-lT-Ret" id="3c7-Hb-4JQ"/>
+                        <outlet property="loadButton" destination="68V-Gn-BJ1" id="pKf-Ko-OxH"/>
                         <outlet property="mappingStatusLabel" destination="g7G-yl-2ca" id="qv7-zV-3Il"/>
                         <outlet property="saveButton" destination="UUt-Nl-VgW" id="AdG-wD-71l"/>
                         <outlet property="sceneView" destination="BrB-h1-WRS" id="5nT-qQ-ynl"/>

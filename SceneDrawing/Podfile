@@ -8,6 +8,7 @@ target 'SceneDrawing' do
   # Pods for SceneDrawing
 
 pod 'Google-Mobile-Ads-SDK'
+pod 'Instructions'
 
   target 'SceneDrawingTests' do
     inherit! :search_paths

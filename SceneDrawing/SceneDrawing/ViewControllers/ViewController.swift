@@ -11,17 +11,23 @@ import SceneKit
 import ARKit
 import MultipeerConnectivity
 import GoogleMobileAds
+import Instructions
 
 final class ViewController: UIViewController {
     
     @IBOutlet private weak var bannerView: GADBannerView!
     @IBOutlet private weak var sceneView: ARSCNView!
     @IBOutlet private weak var mappingStatusLabel: UILabel!
-    @IBOutlet private weak var saveButton: UIButton!
+    @IBOutlet private weak var colorsStackView: UIStackView!
+    @IBOutlet private weak var loadButton: CornerButton!
+    @IBOutlet private weak var saveButton: CornerButton!
     @IBOutlet private weak var fontSizeSlider: UISlider!
+    @IBOutlet private weak var deleteButton: CornerButton!
     
     private var multipeerSession: MultipeerSession!
     private let device = MTLCreateSystemDefaultDevice()!
+    private let coachMarksController = CoachMarksController()
+    let pointOfInterest = UIView()
     
     private var drawNode = SCNNode()
     private var nodeColor: UIColor = .white
@@ -39,6 +45,8 @@ final class ViewController: UIViewController {
         bannerView.rootViewController = self
         bannerView.load(GADRequest())
         
+        coachMarksController.dataSource = self
+        
         sceneView.scene = SCNScene()
         sceneView.session.delegate = self
         sceneView.delegate = self
@@ -55,6 +63,7 @@ final class ViewController: UIViewController {
             showAlert(isCancel: true, title: "エラー", message: "この端末ではご利用出来ません。")
         }
         reloadWorld(session: sceneView.session)
+        coachMarksController.start(in: .window(over: self))
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -191,6 +200,7 @@ extension ViewController: ARSCNViewDelegate {
             }
         }
     }
+    
 }
 
 extension ViewController: ARSessionDelegate {
@@ -211,6 +221,47 @@ extension ViewController: ARSessionDelegate {
                 fatalError()
             }
         }
+    }
+    
+}
+
+extension ViewController: CoachMarksControllerDataSource, CoachMarksControllerDelegate {
+    
+    func numberOfCoachMarks(for coachMarksController: CoachMarksController) -> Int {
+        return 6
+    }
+    
+    func coachMarksController(_ coachMarksController: CoachMarksController, coachMarkAt index: Int) -> CoachMark {
+        switch index {
+        case 0: return coachMarksController.helper.makeCoachMark(for: mappingStatusLabel)
+        case 1: return coachMarksController.helper.makeCoachMark(for: colorsStackView)
+        case 2: return coachMarksController.helper.makeCoachMark(for: loadButton)
+        case 3: return coachMarksController.helper.makeCoachMark(for: saveButton)
+        case 4: return coachMarksController.helper.makeCoachMark(for: fontSizeSlider)
+        case 5: return coachMarksController.helper.makeCoachMark(for: deleteButton)
+        default: return coachMarksController.helper.makeCoachMark(for: view)
+        }
+    }
+    
+    func coachMarksController(_ coachMarksController: CoachMarksController, coachMarkViewsAt index: Int, madeFrom coachMark: CoachMark) -> (bodyView: CoachMarkBodyView, arrowView: CoachMarkArrowView?) {
+        let coachViews = coachMarksController.helper.makeDefaultCoachViews(withArrow: true, arrowOrientation: coachMark.arrowOrientation)
+        coachViews.bodyView.nextLabel.text = "OK"
+        switch index {
+        case 0:
+            coachViews.bodyView.hintLabel.text = "周りのものをどれだけ\nスキャンしているかを表示するよ"
+        case 1:
+            coachViews.bodyView.hintLabel.text = "お絵かきする色を選択できるよ"
+        case 2:
+            coachViews.bodyView.hintLabel.text = "以前保存したワールドをロードするよ"
+        case 3:
+            coachViews.bodyView.hintLabel.text = "ワールド情報とペイントした情報を\n保存し近くの端末に送信するよ\n周りのものをたくさんスキャンして\nボタンを有効にし友達に\nワールド情報を送って一緒にお絵かきしよう！"
+        case 4:
+            coachViews.bodyView.hintLabel.text = "ペイントの太さを変更するよ"
+        case 5:
+            coachViews.bodyView.hintLabel.text = "ワールド情報をリセットするよ"
+        default: break
+        }
+        return (bodyView: coachViews.bodyView, arrowView: coachViews.arrowView)
     }
     
 }

@@ -23,6 +23,7 @@ PODS:
   - "GoogleUtilities/NSData+zlib (5.7.0)"
   - GoogleUtilities/Reachability (5.7.0):
     - GoogleUtilities/Logger
+  - Instructions (1.3.0)
   - nanopb (0.3.901):
     - nanopb/decode (= 0.3.901)
     - nanopb/encode (= 0.3.901)
@@ -31,20 +32,23 @@ PODS:
 
 DEPENDENCIES:
   - Google-Mobile-Ads-SDK
+  - Instructions
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - Google-Mobile-Ads-SDK
     - GoogleAppMeasurement
     - GoogleUtilities
+    - Instructions
     - nanopb
 
 SPEC CHECKSUMS:
   Google-Mobile-Ads-SDK: e911f5544fc6488f8372a183627a802c8bdb5e36
   GoogleAppMeasurement: ffe513e90551844a739e7bcbb1d2aca1c28a4338
   GoogleUtilities: 273e67030e0de313e7304f6dcfa96fc5214f6c23
+  Instructions: fbbb0544d166d5c101c25b1ae58ff6da492cdddb
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
 
-PODFILE CHECKSUM: 01ef93bc8ed47c73bf968332db966fe8de7a5b8d
+PODFILE CHECKSUM: 8aa2f78135821594fdc3428f03eeaf2544d7eeda
 
 COCOAPODS: 1.5.3
