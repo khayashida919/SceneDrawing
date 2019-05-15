@@ -117,7 +117,7 @@
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="Grl-J8-6tM">
                                 <rect key="frame" x="294" y="642" width="100" height="120"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="68V-Gn-BJ1" customClass="CornerButton" customModule="SceneDrawing" customModuleProvider="target">
+                                    <button opaque="NO" alpha="0.10000000000000001" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="68V-Gn-BJ1" customClass="CornerButton" customModule="SceneDrawing" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="100" height="45"/>
                                         <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
@@ -133,7 +133,7 @@
                                             <action selector="loadMapAction:" destination="BV1-FR-VrT" eventType="touchUpInside" id="31N-T9-sfX"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UUt-Nl-VgW" customClass="CornerButton" customModule="SceneDrawing" customModuleProvider="target">
+                                    <button opaque="NO" alpha="0.10000000000000001" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UUt-Nl-VgW" customClass="CornerButton" customModule="SceneDrawing" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="75" width="100" height="45"/>
                                         <color key="backgroundColor" red="0.58600587609999999" green="1" blue="0.2345893242" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>

@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		172D6C0E51CAB8486D5367EB /* Pods_SceneDrawing.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F4155E735D28FF7FEE0A9C5 /* Pods_SceneDrawing.framework */; };
+		406B9EA22283188700945F2C /* AppData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 406B9EA12283188700945F2C /* AppData.swift */; };
 		40D5884E225F723C00EA8EE2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D5884D225F723C00EA8EE2 /* AppDelegate.swift */; };
 		40D58852225F723C00EA8EE2 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D58851225F723C00EA8EE2 /* ViewController.swift */; };
 		40D58855225F723C00EA8EE2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 40D58853225F723C00EA8EE2 /* Main.storyboard */; };
@@ -36,6 +37,7 @@
 		175092FDBAAC65D068169030 /* Pods_SceneDrawingTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SceneDrawingTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F4155E735D28FF7FEE0A9C5 /* Pods_SceneDrawing.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SceneDrawing.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F97DAA2E232F95209D0B620 /* Pods-SceneDrawing.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SceneDrawing.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SceneDrawing/Pods-SceneDrawing.debug.xcconfig"; sourceTree = "<group>"; };
+		406B9EA12283188700945F2C /* AppData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppData.swift; sourceTree = "<group>"; };
 		408F8F91CA89C0D0110F5023 /* Pods-SceneDrawingTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SceneDrawingTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SceneDrawingTests/Pods-SceneDrawingTests.debug.xcconfig"; sourceTree = "<group>"; };
 		40D5884A225F723C00EA8EE2 /* SceneDrawing.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SceneDrawing.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		40D5884D225F723C00EA8EE2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -141,6 +143,7 @@
 		40D588782268A81B00EA8EE2 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				406B9EA12283188700945F2C /* AppData.swift */,
 				40D5886F22617D3800EA8EE2 /* Extensions.swift */,
 				40D588752268A80100EA8EE2 /* CustomViews.swift */,
 			);
@@ -343,6 +346,7 @@
 				40D588762268A80100EA8EE2 /* CustomViews.swift in Sources */,
 				40D5887022617D3800EA8EE2 /* Extensions.swift in Sources */,
 				40D5884E225F723C00EA8EE2 /* AppDelegate.swift in Sources */,
+				406B9EA22283188700945F2C /* AppData.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -27,7 +27,6 @@ final class ViewController: UIViewController {
     private var multipeerSession: MultipeerSession!
     private let device = MTLCreateSystemDefaultDevice()!
     private let coachMarksController = CoachMarksController()
-    let pointOfInterest = UIView()
     
     private var drawNode = SCNNode()
     private var nodeColor: UIColor = .white
@@ -63,13 +62,24 @@ final class ViewController: UIViewController {
             showAlert(isCancel: true, title: "エラー", message: "この端末ではご利用出来ません。")
         }
         reloadWorld(session: sceneView.session)
-        coachMarksController.start(in: .window(over: self))
+        
+        if AppData.shared.isFirstLaunch {
+            coachMarksController.start(in: .window(over: self))
+            AppData.shared.isFirstLaunch = false
+        }
+        guard let worldMapPath = self.worldMapPath else {
+            return
+        }
+        if FileManager.default.fileExists(atPath: worldMapPath.path) {
+            enableButton(button: loadButton)
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-
+        
         sceneView.session.pause()
+        coachMarksController.stop(immediately: true)
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -88,10 +98,12 @@ final class ViewController: UIViewController {
         let nodeAnchor = DrawAnchor(name: "Node", transform: boxNode.simdTransform, color: nodeColor, size: fontSizeSlider.value)
         sceneView.session.add(anchor: nodeAnchor)
         
-        guard let data = try? NSKeyedArchiver.archivedData(withRootObject: nodeAnchor, requiringSecureCoding: true) else {
-            fatalError("can't encode anchor")
+        if !multipeerSession.connectedPeers.isEmpty {
+            guard let data = try? NSKeyedArchiver.archivedData(withRootObject: nodeAnchor, requiringSecureCoding: true) else {
+                fatalError("can't encode anchor")
+            }
+            multipeerSession.sendToAllPeers(data)
         }
-        self.multipeerSession.sendToAllPeers(data)
     }
     
     @IBAction func removeAction(_ sender: UIButton) {
@@ -116,6 +128,7 @@ final class ViewController: UIViewController {
                 let data = try NSKeyedArchiver.archivedData(withRootObject: worldMap, requiringSecureCoding: true)
                 try data.write(to: worldMapPath)
                 self.showAlert(isCancel: false, title: "", message: "保存に成功しました")
+                self.enableButton(button: self.loadButton)
                 self.multipeerSession.sendToAllPeers(data)
             } catch {
                 self.showAlert(isCancel: false, title: "エラー", message: "\(error.localizedDescription)")
@@ -158,6 +171,11 @@ final class ViewController: UIViewController {
         }
         sceneView.scene = SCNScene()
         sceneView.session.run(configuration, options: [.resetTracking, .removeExistingAnchors])
+    }
+    
+    private func enableButton(button: CornerButton) {
+        button.isEnabled = true
+        button.alpha = 1
     }
     
 }
@@ -248,11 +266,11 @@ extension ViewController: CoachMarksControllerDataSource, CoachMarksControllerDe
         coachViews.bodyView.nextLabel.text = "OK"
         switch index {
         case 0:
-            coachViews.bodyView.hintLabel.text = "周りのものをどれだけ\nスキャンしているかを表示するよ"
+            coachViews.bodyView.hintLabel.text = "周りのものをどれだけ\nスキャンしているかを表示するよ。\n黄色い点がスキャンできている箇所だよ"
         case 1:
             coachViews.bodyView.hintLabel.text = "お絵かきする色を選択できるよ"
         case 2:
-            coachViews.bodyView.hintLabel.text = "以前保存したワールドをロードするよ"
+            coachViews.bodyView.hintLabel.text = "以前保存したワールドをロードするよ\nSave&Sendボタンをタップして\nワールドを保存しよう"
         case 3:
             coachViews.bodyView.hintLabel.text = "ワールド情報とペイントした情報を\n保存し近くの端末に送信するよ\n周りのものをたくさんスキャンして\nボタンを有効にし友達に\nワールド情報を送って一緒にお絵かきしよう！"
         case 4:
