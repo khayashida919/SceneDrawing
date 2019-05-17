@@ -12,12 +12,8 @@ final class AppData {
     static let shared = AppData()
     
     var isFirstLaunch: Bool {
-        set {
-            UserDefaults.standard.set(newValue, forKey: "isFirstLaunch")
-        }
-        get {
-           return UserDefaults.standard.bool(forKey: "isFirstLaunch")
-        }
+        set { UserDefaults.standard.set(newValue, forKey: "isFirstLaunch") }
+        get { return UserDefaults.standard.bool(forKey: "isFirstLaunch") }
     }
     
     private init() {
