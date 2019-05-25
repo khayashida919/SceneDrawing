@@ -1,0 +1,23 @@
+/* 
+  Localizable.strings
+  SceneDrawing
+
+  Created by khayashida on 2019/05/24.
+  Copyright © 2019 khayashida. All rights reserved.
+*/
+
+"mappingStatusInsufficient" = "周囲のスキャンしてください\n %@";
+
+"mappingStatusSufficient" = "マッピング状態良好\n %@";
+
+"mappingStatusDescription" = "周りのものをどれだけ\nスキャンしているかを表示するよ。\n黄色い点がスキャンできている箇所だよ";
+
+"colorsStackViewDescription" = "お絵かきする色を選択できるよ";
+
+"loadButtonDescription" = "以前保存したワールドをロードするよ\nSave&Sendボタンをタップして\nワールドを保存しよう";
+
+"saveButtonDescription" =  "ワールド情報とペイントした情報を\n保存し近くの端末に送信するよ\n周りのものをたくさんスキャンして\nボタンを有効にし友達に\nワールド情報を送って一緒にお絵かきしよう！";
+
+"fontSizeSliderDescription" = "ペイントの太さを変更するよ";
+
+"deleteButtonDescription" = "ワールド情報をリセットするよ";

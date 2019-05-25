@@ -1,0 +1,23 @@
+/* 
+  Localizable.strings
+  SceneDrawing
+
+  Created by khayashida on 2019/05/24.
+  Copyright © 2019 khayashida. All rights reserved.
+*/
+
+"mappingStatusInsufficient" = "Please scan around\n %@";
+
+"mappingStatusSufficient" = "Mapping status is good\n %@";
+
+"mappingStatusDescription" = "Show how much you scan around \n It is a place where the yellow dot can be scanned";
+
+"colorsStackViewDescription" = "You can choose a color";
+
+"loadButtonDescription" = "Load a previously saved world \n Tap the Save & Send button to save the world";
+
+"saveButtonDescription" =  "Save world information and painted information and send it to nearby terminals Scan a lot of things around, activate the button, send world information to your friends and draw together!";
+
+"fontSizeSliderDescription" = "You can choose a thickness";
+
+"deleteButtonDescription" = "Reset the world information";

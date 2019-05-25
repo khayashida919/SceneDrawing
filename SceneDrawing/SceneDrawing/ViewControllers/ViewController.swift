@@ -230,11 +230,11 @@ extension ViewController: ARSessionDelegate {
             case .notAvailable, .limited:
                 self.saveButton.isEnabled = false
                 self.saveButton.alpha = 0.1
-                self.mappingStatusLabel.text = "周囲のスキャンしてください\n\(peerName)"
+                self.mappingStatusLabel.text = String(format: NSLocalizedString("mappingStatusInsufficient", comment: ""), peerName)
             case .extending, .mapped:
                 self.saveButton.isEnabled = true
                 self.saveButton.alpha = 1
-                self.mappingStatusLabel.text = "マッピング状態良好\n\(peerName)"
+                self.mappingStatusLabel.text = String(format: NSLocalizedString("mappingStatusSufficient", comment: ""), peerName)
             @unknown default:
                 fatalError()
             }
@@ -266,17 +266,17 @@ extension ViewController: CoachMarksControllerDataSource, CoachMarksControllerDe
         coachViews.bodyView.nextLabel.text = "OK"
         switch index {
         case 0:
-            coachViews.bodyView.hintLabel.text = "周りのものをどれだけ\nスキャンしているかを表示するよ。\n黄色い点がスキャンできている箇所だよ"
+            coachViews.bodyView.hintLabel.text = NSLocalizedString("mappingStatusDescription", comment: "")
         case 1:
-            coachViews.bodyView.hintLabel.text = "お絵かきする色を選択できるよ"
+            coachViews.bodyView.hintLabel.text = NSLocalizedString("colorsStackViewDescription", comment: "")
         case 2:
-            coachViews.bodyView.hintLabel.text = "以前保存したワールドをロードするよ\nSave&Sendボタンをタップして\nワールドを保存しよう"
+            coachViews.bodyView.hintLabel.text = NSLocalizedString("loadButtonDescription", comment: "")
         case 3:
-            coachViews.bodyView.hintLabel.text = "ワールド情報とペイントした情報を\n保存し近くの端末に送信するよ\n周りのものをたくさんスキャンして\nボタンを有効にし友達に\nワールド情報を送って一緒にお絵かきしよう！"
+            coachViews.bodyView.hintLabel.text = NSLocalizedString("saveButtonDescription", comment: "")
         case 4:
-            coachViews.bodyView.hintLabel.text = "ペイントの太さを変更するよ"
+            coachViews.bodyView.hintLabel.text = NSLocalizedString("fontSizeSliderDescription", comment: "")
         case 5:
-            coachViews.bodyView.hintLabel.text = "ワールド情報をリセットするよ"
+            coachViews.bodyView.hintLabel.text = NSLocalizedString("deleteButtonDescription", comment: "")
         default: break
         }
         return (bodyView: coachViews.bodyView, arrowView: coachViews.arrowView)
